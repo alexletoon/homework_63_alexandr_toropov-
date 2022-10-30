@@ -1,0 +1,33 @@
+{% load static %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} Instagram {% endblock %}</title>
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-wrapper">
+            <img src="{% static "media/img/logo.PNG" %} " class="brand-img" alt="">
+            <input type="text" class="search-box" placeholder="search">
+            <div class="nav-items">
+                <img src="{% static "media/img/home.PNG" %}" class="icon" alt="">
+                <img src="{% static "media/img/messenger.PNG" %} " class="icon" alt="">
+                <img src="{% static "media/img/add.PNG" %}" class="icon" alt="">
+                <img src="{% static "media/img/explore.PNG" %} " class="icon" alt="">
+                <img src="{% static "media/img/like.PNG" %} " class="icon" alt="">
+                {% block menu %}{% endblock %}
+                <div class="icon user-profile"></div>
+            </div>
+        </div>
+    </nav>
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>
