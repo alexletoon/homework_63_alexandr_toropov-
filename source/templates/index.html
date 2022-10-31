@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+
+
+{% for post in posts %}
+<img src="{{post.image.url}}" alt="post_pic">
+<p>{{post.description}} </p>
+{% endfor %}

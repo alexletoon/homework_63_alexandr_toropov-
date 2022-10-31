@@ -18,7 +18,11 @@
             <div class="nav-items">
                 <img src="{% static "media/img/home.PNG" %}" class="icon" alt="">
                 <img src="{% static "media/img/messenger.PNG" %} " class="icon" alt="">
-                <img src="{% static "media/img/add.PNG" %}" class="icon" alt="">
+                {% if user.is_authenticated %}
+                <a href="{% url 'add_post' %} ">
+                    <img src="{% static "media/img/add.PNG" %}" class="icon" alt="">
+                </a>
+                {% endif %}
                 <img src="{% static "media/img/explore.PNG" %} " class="icon" alt="">
                 <img src="{% static "media/img/like.PNG" %} " class="icon" alt="">
                 {% block menu %}{% endblock %}
