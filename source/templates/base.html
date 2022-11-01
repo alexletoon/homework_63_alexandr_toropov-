@@ -13,18 +13,41 @@
 <body>
     <nav class="navbar">
         <div class="nav-wrapper">
-            <img src="{% static "media/img/logo.PNG" %} " class="brand-img" alt="">
-            <input type="text" class="search-box" placeholder="search">
+            {% if user.is_authenticated %}
+            <a href="{% url 'profile' user.pk %}">
+                <img src="{% static "media/img/logo.PNG" %} " class="brand-img" alt="">
+            </a>
+        {% else %}
+            <a href="{% url 'login' %}">
+                <img src="{% static "media/img/logo.PNG" %} " class="brand-img" alt="">
+            </a>
+        {% endif %}
+
+            <form class="text-center" action="" method="GET">
+                {% csrf_token %}
+                <input type="text" class="search-box" placeholder="search">
+                <button type="submit" class="btn btn-primary" value="Search">Search</button>
+            </form>
+
             <div class="nav-items">
-                <img src="{% static "media/img/home.PNG" %}" class="icon" alt="">
-                <img src="{% static "media/img/messenger.PNG" %} " class="icon" alt="">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' user.pk %}">
+                        <img src="{% static "media/img/home.PNG" %}" class="icon" alt="">
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}">
+                        <img src="{% static "media/img/home.PNG" %}" class="icon" alt="">
+                    </a>
+                {% endif %}
                 {% if user.is_authenticated %}
                 <a href="{% url 'add_post' %} ">
                     <img src="{% static "media/img/add.PNG" %}" class="icon" alt="">
                 </a>
                 {% endif %}
-                <img src="{% static "media/img/explore.PNG" %} " class="icon" alt="">
-                <img src="{% static "media/img/like.PNG" %} " class="icon" alt="">
+                <a href="{% url 'accounts' %} ">
+                    <img src="{% static "media/img/explore.PNG" %} " class="icon" alt="">
+                </a>
+
                 {% block menu %}{% endblock %}
                 <div class="icon user-profile"></div>
             </div>

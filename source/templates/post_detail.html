@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block content %}
+
+
+    <section class="main">
+    <div class="wrapper">
+        <div class="left-col">
+
+
+            <div class="post">
+                <div class="info">
+                    <div class="user">
+
+                        <p class="username">{{ user_obj.username }} </p>
+                    </div>
+                    <img src="{% static "media/img/option.PNG" %}" class="options" alt=""> 
+                </div>
+
+                <img src="{{post.image.url}}" alt="post_pic" class="post-image" alt="">
+
+                <div class="post-content">
+                    <div class="reaction-wrapper">
+                        <form action="" method="POST">
+                            <input type="image" src="{% static "media/img/like.PNG" %}" alt="Submit" class="icon" />
+                        </form>
+                        <img src="{% static "media/img/comment.PNG" %} " class="icon" alt="">
+                        <img src="{% static "media/img/send.PNG" %} " class="icon" alt="">
+                        <img src="{% static "media/img/save.PNG" %} " class="save icon" alt="">
+                    </div>
+                    {% if not post.user_likes %}
+                    <p class="likes">0 likes</p>
+                    {% else %}
+                    <p class="likes">{{post.user_likes.count}} likes</p>
+                    {% endif %}
+                    <p class="description"><span>{{ user_obj.username }} </span>{{post.description}}</p>
+                    <p class="post-time">2 minutes ago</p>
+                </div>
+
+                <div class="comment-wrapper">
+                    <img src="{% static "media/img/smile.PNG" %} " class="icon" alt="">
+                    <input type="text" class="comment-box" placeholder="Add a comment">
+                    <button class="comment-btn">post</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

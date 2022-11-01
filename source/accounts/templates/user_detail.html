@@ -9,7 +9,7 @@
 
 {% block menu %}
 
-    <li><a href="{% url 'change' user_obj.pk %}">Редактировать</a></li>
+
 
     <li><a href="#">Смена пароля</a></li>
 
@@ -19,70 +19,8 @@
 
 {% block content %}
 
-    <h1>{{ user_obj.get_full_name|default:user_obj.username }}</h1>
-
-    {% if user_obj.avatar %}
-
-        <img class="avatar" src="{{ user_obj.avatar.url }}" width="250" height="250" alt="user picture">
-
-    {% endif %}
 
 
-    <section class="main">
-    <div class="wrapper">
-        <div class="left-col">
-
-
-            <div class="post">
-                <div class="info">
-                    <div class="user">
-
-                        <p class="username">{{ user_obj.username }} </p>
-                    </div>
-                    <img src="{% static "media/img/option.PNG" %}" class="options" alt=""> 
-                </div>
-                {% for post in user_obj.posts.all %}
-                <img src="{{post.image.url}}" alt="post_pic" class="post-image" alt="">
-
-                <div class="post-content">
-                    <div class="reaction-wrapper">
-                        <img src="{% static "media/img/like.PNG" %} " class="icon" alt="">
-                        <img src="{% static "media/img/comment.PNG" %} " class="icon" alt="">
-                        <img src="{% static "media/img/send.PNG" %} " class="icon" alt="">
-                        <img src="{% static "media/img/save.PNG" %} " class="save icon" alt="">
-                    </div>
-                    {% if not post.user_likes %}
-                    <p class="likes">0 likes</p>
-                    {% else %}
-                    <p class="likes">{{post.user_likes.count}} likes</p>
-                    {% endif %}
-                    <p class="description"><span>{{ user_obj.username }} </span>{{post.description}}</p>
-                    <p class="post-time">2 minutes ago</p>
-                </div>
-                {%endfor%}
-                <div class="comment-wrapper">
-                    <img src="{% static "media/img/smile.PNG" %} " class="icon" alt="">
-                    <input type="text" class="comment-box" placeholder="Add a comment">
-                    <button class="comment-btn">post</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-
-
-    <p>Имя пользователя: {{ user_obj.username }}</p>
-
-    <p>Имя: {{ user_obj.first_name }}</p>
-
-    <p>Фамилия: {{ user_obj.last_name }}</p>
-
-    <p>Почта: {{ user_obj.email }}</p>
-
-    <br>
-    <br>
 
     <header>
         <div class="container">
@@ -91,19 +29,31 @@
                     <img src="{{ user_obj.avatar.url }}" alt="">
                 </div>
                 <div class="profile-user-settings">
-                    <h1 class="profile-user-name">{{ user_obj.username }} </h1>
-                    <button class="btn profile-edit-btn">Edit Profile</button>
+                    <h1 class="profile-user-name">{{user_obj.get_full_name|default:user_obj.username}} </h1>
+                    {% if request.user == user_obj %}
+                    <a href="{% url 'change' user_obj.pk %} ">
+                        <button class="btn profile-edit-btn">Edit Profile</button>
+                    </a>
+
+                    {% else %}
+                    <form action="{% url 'follow_account' user_obj.pk %}">
+                        <input type="submit" class="btn profile-edit-btn" value="Подписаться">
+                    </form>
+
+
+                    {% endif %}
                     <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
                 </div>
                 <div class="profile-stats">
                     <ul>
-                        <li><span class="profile-stat-count">164</span> posts</li>
-                        <li><span class="profile-stat-count">188</span> followers</li>
-                        <li><span class="profile-stat-count">206</span> following</li>
+                        <li><span class="profile-stat-count">{{user_obj.posts.count}} </span> posts</li>
+                        <li><span class="profile-stat-count">{{user_obj.subscriptions.count}}</span> followers</li>
+                        <li><span class="profile-stat-count">{{user_obj.subscribers.count}}</span> following</li>
                     </ul>
                 </div>
                 <div class="profile-bio">
-                    <p><span class="profile-real-name">{{ user_obj.username }} </span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+                    <p><span class="profile-real-name">{{ user_obj.get_full_name|default:user_obj.username}} </span>  📷✈️🏕️</p>
+                    <p><span class="profile-real-name">Email: {{user_obj.email}} </span></p>
                 </div>
             </div>
             <!-- End of profile section -->
@@ -115,15 +65,10 @@
             <div class="gallery">
                 {% for post in user_obj.posts.all %}
                 <div class="gallery-item" tabindex="0">
-                    <img src="{{post.image.url}}" class="gallery-image" alt="">
-                    <div class="gallery-item-info">
-    
-                        <ul>
-                            <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> {{post.user_likes.count}}</li>
-                            <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
-                        </ul>
-    
-                    </div>
+                    <a href="{% url 'post_detail' post.id %}">
+                        <img src="{{post.image.url}}" class="gallery-image" alt="post_pic">
+                    </a>
+
     
                 </div>
                 {% endfor %}

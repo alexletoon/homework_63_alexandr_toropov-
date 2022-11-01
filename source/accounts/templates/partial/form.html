@@ -1,0 +1,16 @@
+{% csrf_token %}
+
+
+<div class="row">
+    {% for item in form %}
+
+    <div class="col-sm-10">
+        <p><label for="{{item.id_for_label}}">{{item.label}}:</label></p>
+        <p>{{item}}</p>
+        <p>{{item.errors}}</p>
+    </div>
+    {% endfor %}
+</div>
+
+
+<button type="submit" class="btn btn-primary" value="{{button_text}}">{{button_text}}</button>

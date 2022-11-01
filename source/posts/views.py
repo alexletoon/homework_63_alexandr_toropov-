@@ -1,3 +1,4 @@
+from re import template
 from django.views.generic import TemplateView, CreateView, DetailView, UpdateView, ListView
 from posts.models import Post
 from posts.forms import PostCreationForm
@@ -9,6 +10,7 @@ class ListPostsView(ListView):
     template_name = 'index.html'
     model = Post
     context_object_name = 'posts'
+
 
 
 class AddPostView(CreateView):
@@ -26,6 +28,14 @@ class AddPostView(CreateView):
             image = form.cleaned_data.get('image')
             Post.objects.create(author=author, description=description, image=image)
         return redirect('index')
+
+
+
+class PostDetailView(DetailView):
+    template_name: str = 'post_detail.html'
+    model = Post
+
+
         # return super().post(request, *args, **kwargs)
     # def form_valid(self, form):
     #     form.instance.author = self.request.user
